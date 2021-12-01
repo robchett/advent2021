@@ -1,0 +1,12 @@
+{
+  "name": "robchett/adventofcode2021",
+  "type": "project",
+  "require": {
+  },
+  "suggest": {
+  },
+  "minimum-stability": "stable",
+  "require-dev": {
+    "vimeo/psalm": "^4"
+  }
+}
