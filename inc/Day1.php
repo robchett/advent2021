@@ -1,13 +1,15 @@
 <?php
 
+namespace Day1;
+
 require_once 'Parser.php';
 require_once 'LineParser.php';
 require_once 'Task.php';
 require_once 'Test.php';
 require_once 'Stage.php';
 
-/** @extends Task<list<int>, int> */
-class Day1 extends Task {
+/** @extends \Task<list<int>, int> */
+class Solver extends \Task {
 
     public function part1(mixed $input): mixed {
         $p1 = -1;
@@ -33,14 +35,14 @@ class Day1 extends Task {
     public function tests(): array {
         $tests = [];
         /** @psalm-suppress InvalidArgument */
-        $tests[] = new Test($this, [199, 200, 208, 210, 200, 207, 240, 269, 260, 263], 7, Stage::Stage1);
+        $tests[] = new \Test($this, 'day1_test1.txt', 7, \Stage::Stage1);
         /** @psalm-suppress InvalidArgument */
-        $tests[] = new Test($this, [199, 200, 208, 210, 200, 207, 240, 269, 260, 263], 5, Stage::Stage2);
+        $tests[] = new \Test($this, 'day1_test1.txt', 5, \Stage::Stage2);
         return $tests;
     }
 
-    public function getParser(): LineParser {
-        return new class implements LineParser {
+    public function getParser(): \LineParser {
+        return new class implements \LineParser {
             function parseLine(string $line): int {
                 return (int)$line;
             }

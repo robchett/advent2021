@@ -4,15 +4,17 @@
 $daysInAdvent = 25;
 
 for ($i = 1; $i <= $daysInAdvent; $i++) {
-    $class = "Day$i";
-    if (file_exists(__DIR__ . "/inc/$class.php")) {
-        require_once __DIR__ . "/inc/$class.php";
+    $namespace = "Day$i";
+    if (file_exists(__DIR__ . "/inc/$namespace.php")) {
+        require_once __DIR__ . "/inc/$namespace.php";
+
+        $runnerClass = "\\$namespace\\Solver";
         /** @var Task $runner */
-        $runner = new $class;
+        $runner = new $runnerClass;
         foreach ($runner->tests() as $test) {
-            $test->run($runner);
+            $test->run();
         }
-        $input = Parser::parseLines($i, $runner->getParser());
+        $input = Parser::parseLines("day$i.txt", $runner->getParser());
         echo "-- Day $i -- \n";
         echo "Part 1:" . $runner->part1($input) . "\n";
         echo "Part 2:" . $runner->part2($input) . "\n";

@@ -10,13 +10,12 @@ class Test {
 
     /**
      * @param Task<Tin, Tout> $task
-     * @param Tin $input
      * @param Tout $output
      * @param Stage $stage
      */
     public function __construct(
         readonly public Task $task,
-        readonly public mixed $input,
+        readonly public string $inputFile,
         readonly public mixed $output,
         readonly public Stage $stage,
     ) {
@@ -24,13 +23,15 @@ class Test {
     }
 
     public function run(): bool {
-        $res = match ($this->stage) {
-            Stage::Stage1 => $this->task->part1($this->input),
-            Stage::Stage2 => $this->task->part2($this->input),
+        $method = match ($this->stage) {
+            Stage::Stage1 => $this->task->part1(...),
+            Stage::Stage2 => $this->task->part2(...),
         };
+        $input = Parser::parseLines($this->inputFile, $this->task->getParser());
+        $res = $method($input);
         if ($res == $this->output) {
             return true;
         }
-        throw new Exception('Test failed');
+        throw new Exception("Test failed, expected {$this->output} got $res");
     }
 }
