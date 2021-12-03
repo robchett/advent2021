@@ -34,9 +34,7 @@ class Solver extends \Task {
 
     public function tests(): array {
         $tests = [];
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day2_test1.txt', 150, \Stage::Stage1);
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day2_test1.txt', 900, \Stage::Stage2);
         return $tests;
     }
@@ -67,19 +65,19 @@ class Position {
 
     }
 
-    public function getDistance() {
+    public function getDistance(): int {
         return abs($this->x * $this->y);
     }
 
-    public function moveForward(int $x) {
+    public function moveForward(int $x): void {
         $this->x += $x;
     }
 
-    public function moveUp(int $y) {
+    public function moveUp(int $y): void {
         $this->y -= $y;
     }
 
-    public function moveDown(int $y) {
+    public function moveDown(int $y): void {
         $this->y += $y;
     }
 }
@@ -94,20 +92,20 @@ class PositionWithAim {
 
     }
 
-    public function getDistance() {
+    public function getDistance(): int {
         return abs($this->x * $this->y);
     }
 
-    public function moveForward(int $x) {
+    public function moveForward(int $x): void {
         $this->x += $x;
         $this->y += $this->aim * $x;
     }
 
-    public function moveUp(int $y) {
+    public function moveUp(int $y): void {
         $this->aim -= $y;
     }
 
-    public function moveDown(int $y) {
+    public function moveDown(int $y): void {
         $this->aim += $y;
     }
 }

@@ -27,7 +27,7 @@ class Solver extends \Task {
         return bindec($gamma)*bindec($epsilon);
     }
 
-    /** @param list<Reading> */
+    /** @param list<Reading> $input */
     private function filter(array $input, bool $gt): int {
         $remainingInput = $input;
         for($i = 0; $i < strlen($input[0]->line) - 1; $i++) {
@@ -53,9 +53,7 @@ class Solver extends \Task {
 
     public function tests(): array {
         $tests = [];
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day3_test1.txt', 198, \Stage::Stage1);
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day3_test1.txt', 230, \Stage::Stage2);
         return $tests;
     }

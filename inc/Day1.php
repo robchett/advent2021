@@ -34,9 +34,7 @@ class Solver extends \Task {
 
     public function tests(): array {
         $tests = [];
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day1_test1.txt', 7, \Stage::Stage1);
-        /** @psalm-suppress InvalidArgument */
         $tests[] = new \Test($this, 'day1_test1.txt', 5, \Stage::Stage2);
         return $tests;
     }
