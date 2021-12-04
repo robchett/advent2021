@@ -3,7 +3,7 @@
 namespace Day1;
 
 require_once 'Parser.php';
-require_once 'LineParser.php';
+require_once 'SimpleParser.php';
 require_once 'Task.php';
 require_once 'Test.php';
 require_once 'Stage.php';
@@ -40,7 +40,7 @@ class Solver extends \Task {
     }
 
     public function getParser(): \LineParser {
-        return new class implements \LineParser {
+        return new class extends \SimpleParser {
             function parseLine(string $line): int {
                 return (int)$line;
             }

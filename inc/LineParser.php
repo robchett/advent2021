@@ -3,11 +3,11 @@
 /**
  * @template T
  */
-interface LineParser {
+abstract class LineParser {
 
     /**
-     * @param string $line
-     * @return T
+     * @param list<string> $lines
+     * @return list<T>
      */
-    function parseLine(string $line): mixed;
+    abstract public function parse(array $lines): mixed;
 }
