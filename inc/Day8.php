@@ -48,7 +48,6 @@ class Solver extends \Task {
             $d2 = array_values(array_filter($line->input, fn(string $s) => strlen($s) == 5 && !$this->contains($s, $d5)  && !$this->contains($s, $d3)))[0];
 
             $str = [];
-
             foreach ($line->output as $o) {
                 $char = match (true) {
                     $this->equals($o, $d0) => '0',
