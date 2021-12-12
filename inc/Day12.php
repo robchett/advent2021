@@ -11,17 +11,19 @@ require_once 'Stage.php';
 /** @extends \Task<array<string, Cave>, int> */
 class Solver extends \Task {
 
-    /** @param list<Cave> $input */
-    private function traverse(int $revisits, array $input): int {
-        $paths = [new Path($revisits, [$input['start']])];
-        $completePaths = 0;
+    /**
+     * @return list<Path>
+     */
+    private function traverse(cave $start, cave $end): array {
+        $paths = [new Path([$start])];
+        $completePaths = [];
         while ($path = array_shift($paths)) {
             foreach ($path->last()->links as $next) {
-                if ($next->type == CaveType::Start) {
+                if ($next->type == CaveType::Start || ($end->type != CaveType::End && $next->type == CaveType::End)) {
                     continue;
                 }
-                if ($next->type == CaveType::End) {
-                    $completePaths++;
+                if ($next == $end) {
+                    $completePaths[] = $path;
                     continue;
                 }
                 if ($path->canVisit($next)) {
@@ -29,15 +31,31 @@ class Solver extends \Task {
                 }
             }
         }
-        return $completePaths;
+        return array_map(fn(Path $p) => new Path(array_filter($p->caves, fn(Cave $c) => $c->type == CaveType::Small)), $completePaths);
     }
 
     public function part1(mixed $input): mixed {
-        return $this->traverse(0, $input);
+        return count($this->traverse($input['start'], $input['end']));
     }
 
     public function part2(mixed $input): mixed {
-        return $this->traverse(1, $input);
+        $smallCaves = array_filter($input, fn(Cave $d) => $d->type == CaveType::Small);
+        $baseLoops = array_map(fn(Cave $c) => $this->traverse($c, $c), $smallCaves);
+        $paths = $this->traverse($input['start'], $input['end']);
+        $out = count($paths);
+        foreach ($paths as $path) {
+            foreach ($path->caves as $cave) {
+                $caveLoops = $baseLoops[$cave->name];
+                foreach ($path->caves as $otherCave) {
+                    if ($otherCave == $cave) {
+                        continue;
+                    }
+                    $caveLoops = array_filter($caveLoops, fn(Path $p) => !in_array($otherCave, $p->caves));
+                }
+                $out += count($caveLoops);
+            }
+        }
+        return $out;
     }
 
     public function tests(): array {
@@ -74,8 +92,7 @@ class Path {
 
     /** @param list<Cave> $caves */
     public function __construct(
-        protected int $revisits,
-        protected array $caves,
+        public array $caves,
     ) {
     }
 
@@ -83,16 +100,16 @@ class Path {
         return end($this->caves);
     }
 
+    public function reduce(): string {
+        return array_reduce($this->caves, fn(string $acc, Cave $c) => "$acc,{$c->name}" ,'') . ",end\n";
+    }
+
     public function visit(Cave $c): Path {
-        $revisits = $this->revisits;
-        if ($c->type == CaveType::Small && in_array($c, $this->caves)) {
-            $revisits--;
-        }
-        return new Path($revisits, [...$this->caves, $c]);
+        return new Path([...$this->caves, $c]);
     }
 
     public function canVisit(Cave $c): bool {
-        return $c->type == CaveType::Big || !in_array($c, $this->caves) || $this->revisits;
+        return $c->type == CaveType::Big || !in_array($c, $this->caves);
     }
 }
 
