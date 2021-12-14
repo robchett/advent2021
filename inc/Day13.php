@@ -85,7 +85,8 @@ class Folder {
      */
     private function foldX(array $grid, int $pos): array {
         $newGrid = [];
-        foreach ($grid as $y => $line) {
+        $maxY = max(array_keys($grid));
+        for ($y = 0; $y <= $maxY; $y++) {
             for ($x = 0; $x < $pos; $x++) {
                 $newGrid[$y][$x] = $this->merge($grid[$y][$x] ?? '.', $grid[$y][$pos * 2 - $x] ?? '.');
             }
@@ -99,8 +100,8 @@ class Folder {
      */
     private function foldY(array $grid, int $pos): array {
         $newGrid = [];
-        $max = max(array_map(fn(array $line) => $line ? max(array_keys($line)) : 0, $grid));
-        for ($x = 0; $x <= $max; $x++) {
+        $maxX = max(array_map(fn(array $line) => $line ? max(array_keys($line)) : 0, $grid));
+        for ($x = 0; $x <= $maxX; $x++) {
             for ($y = 0; $y < $pos; $y++) {
                 $newGrid[$y][$x] = $this->merge($grid[$y][$x] ?? '.', $grid[$pos * 2 - $y][$x] ?? '.');
             }
@@ -110,9 +111,10 @@ class Folder {
 
     private function print(array $grid): void {
         $out = '';
-        $max = max(array_map(fn(array $line) => $line ? max(array_keys($line)) : 0, $grid));
-        for ($y = 0; $y <= count($grid) + 1; $y++) {
-            for ($x = 0; $x <= $max; $x++) {
+        $maxX = max(array_map(fn(array $line) => $line ? max(array_keys($line)) : 0, $grid));
+        $maxY = max(array_keys($grid));
+        for ($y = 0; $y <= $maxY; $y++) {
+            for ($x = 0; $x <= $maxX; $x++) {
                 $out .= $grid[$y][$x] ?? '.';
             }
             $out .= "\n";
