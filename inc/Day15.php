@@ -92,7 +92,7 @@ class Solver extends \Task {
             for ($j = 0; $j < 5; $j++) {
                 for ($x = 0; $x < $input->width; $x++) {
                     for ($y = 0; $y < $input->width; $y++) {
-                        $newGrid[$x + ($input->width * $i)][$y + ($input->width * $j)] = ($input->grid[$x][$y] + $i + $j) % 10 + floor(($input->grid[$x][$y] + $i + $j) / 10);
+                        $newGrid[$x + ($input->width * $i)][$y + ($input->width * $j)] = ($input->grid[$x][$y] + $i + $j) % 9 + floor(($input->grid[$x][$y] + $i + $j) / 10);
                     }
                 }
             }
