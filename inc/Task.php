@@ -23,4 +23,8 @@ abstract class Task {
 
     abstract public function getParser(): LineParser;
 
+    public function print(mixed $input): string {
+        return "Part 1:" . $this->part1($input) . "\nPart 2:" . $this->part2($input) . "\n";
+    }
+
 }

@@ -3,7 +3,7 @@
 
 $daysInAdvent = 25;
 
-for ($i = 17; $i <= $daysInAdvent; $i++) {
+for ($i = 19; $i <= $daysInAdvent; $i++) {
     $namespace = "Day$i";
     if (file_exists(__DIR__ . "/inc/$namespace.php")) {
         require_once __DIR__ . "/inc/$namespace.php";
@@ -14,9 +14,7 @@ for ($i = 17; $i <= $daysInAdvent; $i++) {
         foreach ($runner->tests() as $test) {
             $test->run();
         }
-        $input = Parser::parseLines("day$i.txt", $runner->getParser());
         echo "-- Day $i -- \n";
-        echo "Part 1:" . $runner->part1($input) . "\n";
-        echo "Part 2:" . $runner->part2($input) . "\n";
+        echo $runner->print(Parser::parseLines("day$i.txt", $runner->getParser()));
     }
 }
