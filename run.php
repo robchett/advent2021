@@ -3,7 +3,7 @@
 
 $daysInAdvent = 25;
 
-for ($i = 22; $i <= $daysInAdvent; $i++) {
+for ($i = 23; $i <= $daysInAdvent; $i++) {
     $namespace = "Day$i";
     if (file_exists(__DIR__ . "/inc/$namespace.php")) {
         require_once __DIR__ . "/inc/$namespace.php";
